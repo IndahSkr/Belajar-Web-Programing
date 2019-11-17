@@ -1,5 +1,6 @@
 <?php
   session_start();
+  require_once("aplikasi.php");
 ?>
 
 <!doctype html>
@@ -22,8 +23,26 @@
     <div class="row">
       <div class="col-4" style="background-color: pink">SIDEBAR
         <ul><a href="index.php?page=login_form">Login </a></ul>
-        <ul><a href="index.php?page=mahasiswa">Data Mahasiswa </a></ul>
         
+        <?php if(isset($_SESSION['username'])){
+          ?>
+            <ul>
+              <?php
+                $menu = get_menu_by_level2($_SESSION['level']);
+                if($menu){
+                while($row = mysqli_fetch_assoc($menu))
+                {
+                  echo '<li><a href="index.php?page='.$row['page'].'">'.$row['nama_menu'].'
+                  </a></li>';
+
+                }
+              }
+              ?>
+              <a href="index.php?page=logout">Logout </a>
+            </ul>
+            <?php
+          }
+        ?>
       </div>
         <div class="col-8" style="background-color: lightblue;min-height: 100px">CONTENT
           <?php
@@ -36,7 +55,7 @@
             {
               $page="dashboard";
             }
-            require_once("aplikasi.php");
+            
             // batasi untuk yang sudah login
             $exception_page = ['login_form','login_process'];
 
@@ -49,14 +68,15 @@
                 exit;
               }
             }
-
+            //periksa apakah punya kewenangan
             require_once($page.".php");
           ?>
-          <div class="row" style="background-color: gray">FOOTER
-        </div>
+          
         </div>
         
     </div>
+    <div class="row" style="background-color: gray">FOOTER
+        </div>
     </div>
 
     <!-- Optional JavaScript -->

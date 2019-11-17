@@ -48,10 +48,43 @@
 	{
 		$koneksi = connect_to_db();
 		$sql = "select * from pengguna 
-		where username='$username' AND pass='".md5($password)."'";
+			where username='$username' AND pass='".md5($password)."'";
 		$query = mysqli_query($koneksi,$sql);
 
 		$num = mysqli_num_rows($query);
 		return ($num > 0);
+	}
+	function get_level_by_username($username){
+		$koneksi = connect_to_db();
+		$sql= "select a.id_level, c.nama_level as nama_level 
+			from level_pengguna as a 
+			join pengguna as b on a.id_pengguna=b.id 
+			join level as c on c.id=a.id_level 
+			where b.username='".$username."' 
+			limit 1";
+		$query = mysqli_query($koneksi,$sql);
+
+		if(mysqli_num_rows($query) == 0){
+			return false;
+		}
+		return mysqli_fetch_array($query);
+	}
+	function get_menu_by_level($level){
+		$koneksi = connect_to_db();
+		$sql= "select b.nama_menu, b.page form level_menu as a
+			join menu as b on a.id_menu=b.id
+			where a.id_level=".$level;
+		$query = mysqli_query($koneksi,$sql);
+
+		return $query;
+	}
+	function get_menu_by_level2($level){
+		$koneksi = connect_to_db();
+		$sql= "select a.id_menu, c.nama_menu, c.page 
+			from level_menu as a 
+			join level as b on a.id_level=b.id 
+			join level as c on c.id=a.id_menu 
+			where b.nama_level=".$level;
+		mysqli_query($koneksi,$sql);
 	}
 ?>

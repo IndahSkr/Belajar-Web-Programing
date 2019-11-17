@@ -12,6 +12,19 @@
 		// set sessoion
 		$_SESSION['username'] = $username;
 
+		//cek level
+		$level = get_level_by_username($username);
+
+		if($level == false)
+		{
+			echo "<script> 
+			window.location='index.php?page=logout';
+		</script>";
+		}
+		else{
+			$_SESSION['level']=$level['id_level'];
+		}
+
 		//redirect ke dashboard
 		echo "<script> 
 			window.location='index.php?page=dashboard';
