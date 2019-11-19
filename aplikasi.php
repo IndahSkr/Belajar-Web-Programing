@@ -83,7 +83,7 @@
 		$sql= "select a.id_menu, c.nama_menu, c.page 
 			from level_menu as a 
 			join level as b on a.id_level=b.id 
-			join level as c on c.id=a.id_menu 
+			join menu as c on c.id=a.id_menu 
 			where b.nama_level=".$level;
 		mysqli_query($koneksi,$sql);
 	}
