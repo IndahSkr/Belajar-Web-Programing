@@ -29,13 +29,13 @@
             <ul>
               <?php
                 $menu = get_menu_by_level2($_SESSION['level']);
-                if($menu){
+                
                 while($row = mysqli_fetch_assoc($menu))
                 {
                   echo '<li><a href="index.php?page='.$row['page'].'">'.$row['nama_menu'].'
                   </a></li>';
 
-                }
+                
               }
               ?>
               <a href="index.php?page=logout">Logout </a>

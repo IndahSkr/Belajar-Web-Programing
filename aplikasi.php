@@ -85,6 +85,6 @@
 			join level as b on a.id_level=b.id 
 			join menu as c on c.id=a.id_menu 
 			where b.nama_level=".$level;
-		mysqli_query($koneksi,$sql);
+		return mysqli_query($koneksi,$sql);
 	}
 ?>
