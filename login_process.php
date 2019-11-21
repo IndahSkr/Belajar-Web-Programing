@@ -1,13 +1,17 @@
 <?php
-	if (defined("INDEX")==false) {
-		die("you shall not pass!");
-	}
+	session_start();
+	require_once("aplikasi.php");
+//	if (defined("INDEX")==false) {
+//		die("you shall not pass!");
+//	}
 
 	$username = $_POST['username'];
 	$password = $_POST['pass'];
 	
 	$cek = cek_login($username,$password);
-	
+	//var_dump($_SESSION['username']);
+	//		var_dump($level);
+	//		die;
 	if ($cek) {
 		// set sessoion
 		$_SESSION['username'] = $username;
@@ -18,10 +22,13 @@
 		if($level == false)
 		{
 			echo "<script> 
-			window.location='index.php?page=logout';
-		</script>";
+				window.location='index.php?page=logout';
+			</script>";
 		}
 		else{
+		//	var_dump($_SESSION['username']);
+		//	var_dump($level);
+		//	die;
 			$_SESSION['level']=$level['id_level'];
 		}
 

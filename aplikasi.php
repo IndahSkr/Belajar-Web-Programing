@@ -12,33 +12,33 @@
 	function get_data_mahasiswa()
 	{
 		$koneksi = connect_to_db();
-		$sql = "select * from mahasiswa";
+		$sql = "SELECT * FROM mahasiswa";
 		return mysqli_query($koneksi, $sql);
 	}
 	function hapus_mhs($nim)
 	{
 		$koneksi = connect_to_db();
-		$sql = "delete from mahasiswa where nim=".$nim;
+		$sql = "DELETE from mahasiswa where nim=".$nim;
 		mysqli_query($koneksi,$sql);
 	}
 	function simpan_mhs($nim,$nama,$alamat)
 	{
 		$koneksi = connect_to_db();
-		$sql = "insert into mahasiswa values('$nim','$nama', '$alamat')";
+		$sql = "INSERT into mahasiswa values('$nim','$nama', '$alamat')";
 
 		mysqli_query($koneksi,$sql);
 	}
 	function get_mhs_by_nim($nim)
 	{
 		$koneksi = connect_to_db();
-		$sql = "select * from mahasiswa where nim=".$nim;
+		$sql = "SELECT * from mahasiswa where nim=".$nim;
 		$query = mysqli_query($koneksi,$sql);
 		return mysqli_fetch_array($query);
 	}
 	function update_mhs($nim,$nama,$alamat)
 	{
 		$koneksi = connect_to_db();
-		$sql = "update mahasiswa 
+		$sql = "UPDATE mahasiswa 
 				set nama='$nama', alamat='$alamat'
 				where nim='$nim'";
 
@@ -47,8 +47,8 @@
 	function cek_login($username,$password)
 	{
 		$koneksi = connect_to_db();
-		$sql = "select * from pengguna 
-			where username='$username' AND pass='".md5($password)."'";
+		$sql = "SELECT * FROM pengguna 
+			WHERE username='$username' AND pass='".md5($password)."'";
 		$query = mysqli_query($koneksi,$sql);
 
 		$num = mysqli_num_rows($query);
@@ -56,11 +56,11 @@
 	}
 	function get_level_by_username($username){
 		$koneksi = connect_to_db();
-		$sql= "select a.id_level, c.nama_level as nama_level 
-			from level_pengguna as a 
-			join pengguna as b on a.id_pengguna=b.id 
-			join level as c on c.id=a.id_level 
-			where b.username='".$username."' 
+		$sql= "SELECT a.id_level, c.nama_level  
+			FROM level_pengguna AS a 
+			JOIN pengguna AS b ON a.id_pengguna=b.id 
+			JOIN level AS c ON c.id 
+			WHERE b.username='".$username."' 
 			limit 1";
 		$query = mysqli_query($koneksi,$sql);
 
@@ -71,20 +71,8 @@
 	}
 	function get_menu_by_level($level){
 		$koneksi = connect_to_db();
-		$sql= "select b.nama_menu, b.page form level_menu as a
-			join menu as b on a.id_menu=b.id
-			where a.id_level=".$level;
+		$sql = "SELECT * FROM level_menu AS a JOIN menu AS b ON a.id_menu=b.id WHERE a.id_level='".$level."'";
 		$query = mysqli_query($koneksi,$sql);
-
 		return $query;
 	}
-	function get_menu_by_level2($level){
-		$koneksi = connect_to_db();
-		$sql= "select a.id_menu, c.nama_menu, c.page 
-			from level_menu as a 
-			join level as b on a.id_level=b.id 
-			join menu as c on c.id=a.id_menu 
-			where b.nama_level=".$level;
-		return mysqli_query($koneksi,$sql);
-	}
-?>
+	

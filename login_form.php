@@ -1,9 +1,10 @@
 <?php
+
 	if (defined("INDEX")==false) {
 		die("you shall not pass!");
 	}
 ?>
-<form action="index.php?page=login_process" method="post">
+<form action="login_process.php" method="post">
 	Username<br/>
 	<input type="text" name="username" style="width: 180px;" />
 	<br/>

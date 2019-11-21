@@ -19,64 +19,71 @@
     <div class="container">
       <div class="row" style="background-color: yellow">
         <div class="col">HEADER
-        
+        </div>
+      </div>
     <div class="row">
       <div class="col-4" style="background-color: pink">SIDEBAR
-        <ul><a href="index.php?page=login_form">Login </a></ul>
-        
-        <?php if(isset($_SESSION['username'])){
+        <ul>
+          <?php if(isset($_SESSION['username'])) {
+            $menu = get_menu_by_level($_SESSION['level']); 
+            
+            while($row = mysqli_fetch_array($menu))
+            {
+              echo '<a href="index.php?page='.$row['page'].'">';
+              echo "<li>".$row['nama_menu']."</li>";
+              echo "</a>";
+            }
+          };
+            
           ?>
-            <ul>
-              <?php
-                $menu = get_menu_by_level2($_SESSION['level']);
-                
-                while($row = mysqli_fetch_assoc($menu))
-                {
-                  echo '<li><a href="index.php?page='.$row['page'].'">'.$row['nama_menu'].'
-                  </a></li>';
-
-                
-              }
-              ?>
-              <a href="index.php?page=logout">Logout </a>
-            </ul>
-            <?php
-          }
-        ?>
+        </ul>
       </div>
         <div class="col-8" style="background-color: lightblue;min-height: 100px">CONTENT
           <?php
-            define("INDEX",true);
-            if (isset($_GET['page']))
-            {
-              $page=$_GET['page'];
-            }
-            else
-            {
-              $page="dashboard";
-            }
+            define('INDEX', true);
+//            if (isset($_GET['page']))
+//            {
+//              $page=$_GET['page'];
+//            }
+//            else
+//            {
+//              $page="dashboard";
+//            }
             
             // batasi untuk yang sudah login
             $exception_page = ['login_form','login_process'];
-
-            if (in_array($page, $exception_page) == false) {
-              //cek session
-              if ($_SESSION['username']=="") {
-                echo "<script> 
-                  window.location='index.php?page=login_form';
-                </script>";
-                exit;
-              }
-            }
+//
+//            if (in_array($page, $exception_page) == false) {
+//              //cek session
+//              if ($_SESSION['username']=="") {
+//                echo "<script> 
+//                  window.location='index.php?page=login_form';
+//                </script>";
+//                exit;
+//              }
+//            }
             //periksa apakah punya kewenangan
-            require_once($page.".php");
+//            echo $_SESSION['username'];
+            if (isset($_SESSION['username'])) {
+              if (isset($_GET['page'])) {
+                $page = $_GET['page'];
+              }else{
+                $page = "dashboard";
+              }
+              require_once($page.".php");
+            }else{
+              $page = "login_form";
+              require_once($page.".php");
+//               exit;
+            }
+            
           ?>
           
         </div>
         
     </div>
-    <div class="row" style="background-color: gray">FOOTER
-        </div>
+      <div class="row" style="background-color: gray">FOOTER
+      </div>
     </div>
 
     <!-- Optional JavaScript -->
